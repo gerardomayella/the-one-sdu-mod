@@ -11,6 +11,16 @@ package core;
 public class Coord implements Cloneable, Comparable<Coord> {
 	private double x;
 	private double y;
+
+	/**
+	 * Factory method to create a new coordinate.
+	 *
+	 * @param x X-coordinate
+	 * @param y Y-coordinate
+	 */
+	public static Coord of(double x, double y) {
+		return new Coord(x,y);
+	}
 	
 	/**
 	 * Constructor.
