@@ -10,6 +10,16 @@ package core;
 public class Tuple<K,V>  {
 	private K key;
 	private V value;
+
+	/**
+	 * Factory method to create a new tuple.
+	 *
+	 * @param key of type {@link K}
+	 * @param value of type {@link V}
+	 */
+	public static <K,V> Tuple of(K key, V value) {
+		return new Tuple<>(key, value);
+	}
 	
 	/** 
 	 * Creates a new tuple.
