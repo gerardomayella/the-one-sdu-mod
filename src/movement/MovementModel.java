@@ -251,16 +251,18 @@ public abstract class MovementModel {
 	public abstract MovementModel replicate();
 	
 	/**
-	 * Resets all static fields to default values
+	 * Resets all static fields to default values.
+	 * If RNG seed is set in, it is used to initialize the RNG.
+	 * Otherwise uses random seed for the {@link Random}.
 	 */
 	public static void reset() {
 		Settings s = new Settings(MOVEMENT_MODEL_NS);
-		if (s.contains(RNG_SEED)) {
+		if (s.contains(RNG_SEED) && (s.getInt(RNG_SEED) != 0)) {
 			int seed = s.getInt(RNG_SEED);
 			rng = new Random(seed);
 		}
 		else {
-			rng = new Random(0);
+			rng = new Random();
 		}
 	}
 	
