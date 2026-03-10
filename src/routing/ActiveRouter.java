@@ -83,16 +83,16 @@ public abstract class ActiveRouter extends MessageRouter {
 	
 	@Override
 	public boolean requestDeliverableMessages(Connection con) {
-		if (isTransferring()) {
+		if (isTransferring()) {// cek apakah router masih melakukan transfer
 			return false;
 		}
 		
-		DTNHost other = con.getOtherNode(getHost());
+		DTNHost other = con.getOtherNode(getHost());// cek siapa lawannya
 		/* do a copy to avoid concurrent modification exceptions 
 		 * (startTransfer may remove messages) */
 		ArrayList<Message> temp = 
-			new ArrayList<Message>(this.getMessageCollection());
-		for (Message m : temp) {
+			new ArrayList<Message>(this.getMessageCollection());// membuat temp dari koleksi Message
+		for (Message m : temp) {// untuk setiap message dalam koleksi message
 			if (other == m.getTo()) {
 				if (startTransfer(m, con) == RCV_OK) {
 					return true;
@@ -156,7 +156,7 @@ public abstract class ActiveRouter extends MessageRouter {
 	 * @return the value returned by 
 	 * {@link Connection#startTransfer(DTNHost, Message)}
 	 */
-	protected int startTransfer(Message m, Connection con) {
+	protected int 	startTransfer(Message m, Connection con) {
 		int retVal;
 		
 		if (!con.isReadyForTransfer()) {

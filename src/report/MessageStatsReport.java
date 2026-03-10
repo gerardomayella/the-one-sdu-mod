@@ -63,6 +63,7 @@ public class MessageStatsReport extends Report implements MessageListener {
 		this.nrofResponseReqCreated = 0;
 		this.nrofResponseDelivered = 0;
 		this.nrofDelivered = 0;
+
 	}
 
 	
@@ -78,7 +79,7 @@ public class MessageStatsReport extends Report implements MessageListener {
 			this.nrofRemoved++;
 		}
 		
-		this.msgBufferTime.add(getSimTime() - m.getReceiveTime());
+		this.msgBufferTime.add(getSimTime() - m.getReceiveTime());// menambahkan bufferTime(berapa lama message yang didelete disimpan)
 	}
 
 	
@@ -117,7 +118,7 @@ public class MessageStatsReport extends Report implements MessageListener {
 			return;
 		}
 		
-		this.creationTimes.put(m.getId(), getSimTime());
+            this.creationTimes.put(m.getId(), getSimTime());
 		this.nrofCreated++;
 		if (m.getResponseSize() > 0) {
 			this.nrofResponseReqCreated++;

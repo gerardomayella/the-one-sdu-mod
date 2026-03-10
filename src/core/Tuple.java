@@ -21,6 +21,7 @@ public class Tuple<K,V>  {
 		this.value = value;
 	}
 	
+
 	/**
 	 * Returns the key
 	 * @return the key
@@ -36,6 +37,15 @@ public class Tuple<K,V>  {
 	public V getValue() {
 		return value;
 	}
+	
+	public void setKey(K key) {
+		this.key = key;
+	}
+	
+	public void setValue(V value) {
+		this.value = value;
+	}
+	
 	
 	/**
 	 * Returns a string representation of the tuple

@@ -144,11 +144,11 @@ public abstract class MessageRouter {
         if (s.contains(NODE_RANDOM)) {
             this.nodeSelfish = s.getInt(NODE_RANDOM);
         }
-        if (s.contains(B_SIZE_S)) {
-            this.bufferSize = s.getInt(B_SIZE_S);
+        if (s.contains(B_SIZE_S)) {// ketika ada buffer custom
+            this.bufferSize = s.getInt(B_SIZE_S);// memasukkan angka buffer ke bufferSize
         }
-        if (s.contains(MSG_TTL_S)) {
-            this.msgTtl = s.getInt(MSG_TTL_S);
+        if (s.contains(MSG_TTL_S)) {// ketika ada message ttl custom
+            this.msgTtl = s.getInt(MSG_TTL_S);// memasukkan angka ttl custom ke msgTtl
         }
         if (s.contains(SEND_QUEUE_MODE_S)) {
             this.sendQueueMode = s.getInt(SEND_QUEUE_MODE_S);
@@ -299,15 +299,15 @@ public abstract class MessageRouter {
     public int getFreeBufferSize() {
         int occupancy = 0;
 
-        if (this.getBufferSize() == Integer.MAX_VALUE) {
+        if (this.getBufferSize() == Integer.MAX_VALUE) {// ketika bufferSize sangat besar
             return Integer.MAX_VALUE;
         }
 
-        for (Message m : getMessageCollection()) {
-            occupancy += m.getSize();
+        for (Message m : getMessageCollection()) {// cek seluruh message
+            occupancy += m.getSize();// menambahkan size dari message ke occupancy
         }
 
-        return this.getBufferSize() - occupancy;
+        return this.getBufferSize() - occupancy;// pengurangan
     }
 
     /**

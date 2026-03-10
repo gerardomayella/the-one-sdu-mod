@@ -21,7 +21,8 @@ public class SnFDecisionEngine implements RoutingDecisionEngine
 {
 	/** identifier for the initial number of copies setting ({@value})*/ 
 	public static final String NROF_COPIES_S = "nrofCopies";
-	/** Message property key for the remaining available copies of a message */
+	/** Message property key for the remaining a
+	 * vailable copies of a message */
 	public static final String MSG_COUNT_PROP = "SprayAndFocus.copies";
 	/** identifier for the difference in timer values needed to forward on a message copy */
 	public static final String TIMER_THRESHOLD_S = "transitivityTimerThreshold";
@@ -192,12 +193,31 @@ public class SnFDecisionEngine implements RoutingDecisionEngine
 	@Override
 	public boolean shouldSendMessageToHost(Message m, DTNHost otherHost, DTNHost thisHost) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'shouldSendMessageToHost'");
+		if(m.getTo() == otherHost) return true;
+		
+		int nrofCopies = (Integer)m.getProperty(MSG_COUNT_PROP);
+		if(nrofCopies > 1) return true;
+		
+		DTNHost dest = m.getTo();
+		
+		SnFDecisionEngine de = this.getOtherSnFDecisionEngine(otherHost);
+		
+		//If otherHost has no entry, don't bother
+		if(!de.recentEncounters.containsKey(dest))
+			return false;
+		
+		// If otherHost has an entry and I don't, send
+		if(!this.recentEncounters.containsKey(dest))
+			return true;
+		
+		if(de.recentEncounters.get(dest) > this.recentEncounters.get(dest))
+			return true;
+		
+		return false;	
 	}
 
 	@Override
 	public void update(DTNHost thisHost) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'update'");
 	}
 }
