@@ -69,7 +69,7 @@ import core.*;
  *
  * <strong>Tombstones</strong>
  *
- * The ONE has the the deleteDelivered option that lets a host delete a message
+ * The ONE has the deleteDelivered option that lets a host delete a message
  * if it comes in contact with the message's destination. More aggressive
  * approach lets a host remember that a given message was already delivered by
  * storing the message ID in a list of delivered messages (which is called the
@@ -107,7 +107,7 @@ public class DecisionEngineRouter extends ActiveRouter {
         outgoingMessages = new LinkedList<Tuple<Message, Connection>>();
 
         decider = (RoutingDecisionEngine) routeSettings.createIntializedObject(
-                "routing." + routeSettings.getSetting(ENGINE_SETTING));
+                "routing.decisionengine." + routeSettings.getSetting(ENGINE_SETTING));
 
         if (routeSettings.contains(TOMBSTONE_SETTING)) {
             tombstoning = routeSettings.getBoolean(TOMBSTONE_SETTING);
