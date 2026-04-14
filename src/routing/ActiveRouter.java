@@ -242,7 +242,7 @@ public abstract class ActiveRouter extends MessageRouter {
 		/* delete messages from the buffer until there's enough space */
 		while (freeBuffer < size) {
 			Message m = getOldestMessage(true); // don't remove msgs being sent
-
+			
 			if (m == null) {
 				return false; // couldn't remove any more messages
 			}			
@@ -255,6 +255,8 @@ public abstract class ActiveRouter extends MessageRouter {
 		return true;
 	}
 	
+
+
 	/**
 	 * Drops messages whose TTL is less than zero.
 	 */
@@ -309,6 +311,26 @@ public abstract class ActiveRouter extends MessageRouter {
 		
 		return oldest;
 	}
+
+	protected Message getLeastTTL(boolean excludeMsgBeingSent) {
+		Collection<Message> messages = this.getMessageCollection();
+		Message leastTTL = null;
+		for (Message m : messages) {
+			
+			if (excludeMsgBeingSent && isSending(m.getId())) {
+				continue;
+			}
+			
+			if (leastTTL == null ) {
+				leastTTL = m;
+			}
+			else if (leastTTL.getTtl() > m.getTtl()) {
+				leastTTL = m;
+			}
+		}
+		return leastTTL;
+	}
+
 	
 	/**
 	 * Returns a list of message-connections tuples of the messages whose
