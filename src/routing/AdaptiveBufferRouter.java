@@ -9,7 +9,7 @@ public class AdaptiveBufferRouter extends ActiveRouter {
     public static final String BUFFER_RELEASE_METHOD = "bufferReleaseMethod";
 
     public enum DropPolicy {
-        FIFO, SHLI, MOFO
+        FIFO, SHLI, MOFO, LHLI
     }
 
     public DropPolicy dropPolicy;
@@ -59,6 +59,16 @@ public class AdaptiveBufferRouter extends ActiveRouter {
         return l;
     }
 
+	protected Message getMostTTL(boolean b) {
+        Collection<Message> msgs = getMessageCollection();
+        Message l = null;
+        for (Message m : msgs) {
+            if (b && isSending(m.getId())) continue;
+            if (l == null || l.getTtl() < m.getTtl()) l = m;
+        }
+        return l;
+    }
+
     protected Message getMostHop(boolean b) {
         Collection<Message> msgs = getMessageCollection();
         Message h = null;
@@ -85,6 +95,9 @@ public class AdaptiveBufferRouter extends ActiveRouter {
                 case MOFO:
                     m = getMostHop(true);
                     break;
+				case LHLI:
+					m = getMostTTL(true);
+					break;
                 case FIFO:
                 default:
                     m = getOldestMessage(true);
