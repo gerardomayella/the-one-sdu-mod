@@ -312,25 +312,6 @@ public abstract class ActiveRouter extends MessageRouter {
 		return oldest;
 	}
 
-	protected Message getLeastTTL(boolean excludeMsgBeingSent) {
-		Collection<Message> messages = this.getMessageCollection();
-		Message leastTTL = null;
-		for (Message m : messages) {
-			
-			if (excludeMsgBeingSent && isSending(m.getId())) {
-				continue;
-			}
-			
-			if (leastTTL == null ) {
-				leastTTL = m;
-			}
-			else if (leastTTL.getTtl() > m.getTtl()) {
-				leastTTL = m;
-			}
-		}
-		return leastTTL;
-	}
-
 	
 	/**
 	 * Returns a list of message-connections tuples of the messages whose
