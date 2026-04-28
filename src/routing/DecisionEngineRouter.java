@@ -105,8 +105,22 @@ public class DecisionEngineRouter extends ActiveRouter {
 
         outgoingMessages = new LinkedList<Tuple<Message, Connection>>();
 
-        decider = (RoutingDecisionEngine) routeSettings.createIntializedObject(
-                "routing.decisionengine." + routeSettings.getSetting(ENGINE_SETTING));
+        // 1. Ambil nama decision engine yang ditulis dari file setting (.cfg)
+        String engineName = routeSettings.getSetting(ENGINE_SETTING);
+        String fullClassName;
+
+        // 2. Evaluasi menggunakan IF: jika nama mengandung/dimulai dengan "community."
+        if (engineName.startsWith("community.")) {
+            // Gabungkan menjadi: "routing.community.BubbleRap"
+            fullClassName = "routing." + engineName;
+        } else {
+            // Jika tidak ada "community.", gunakan folder default bawaan
+            // Gabungkan menjadi: "routing.decisionengine.SnWDecisionEngine"
+            fullClassName = "routing.decisionengine." + engineName;
+        }
+
+        // 3. Muat (load) kelas algoritma berdasarkan path yang sudah difilter di atas
+        decider = (RoutingDecisionEngine) routeSettings.createIntializedObject(fullClassName);
 
         if (routeSettings.contains(TOMBSTONE_SETTING)) {
             tombstoning = routeSettings.getBoolean(TOMBSTONE_SETTING);
