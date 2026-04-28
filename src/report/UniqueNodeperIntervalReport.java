@@ -16,7 +16,6 @@ public class UniqueNodeperIntervalReport extends Report {
     public void done() {
         // mengimplementasikan centrality per interval waktu 24 jam
         List<DTNHost> nodes = SimScenario.getInstance().getHosts();
-        List<Integer> centrality = new LinkedList<Integer>();
 
         for (DTNHost h : nodes) {
             MessageRouter r = h.getRouter();
@@ -29,11 +28,10 @@ public class UniqueNodeperIntervalReport extends Report {
             }
             CentralityDetectionEngine cd = (CentralityDetectionEngine) de;
             int[] nodeCentrality = cd.getArrayCentrality();
-            // mengambil tiap tiap getArrayCentrality dari tiap node
 
+            // mengambil tiap tiap getArrayCentrality dari tiap node
             String printText = h.toString() + ":";
             for (int i = 0; i < nodeCentrality.length; i++) {
-                // Tambahkan spasi dan nilai centrality ke dalam variabel string
                 printText = printText + "\t" + nodeCentrality[i];
 
             }
