@@ -11,7 +11,7 @@ import routing.DecisionEngineRouter;
 import routing.MessageRouter;
 import routing.RoutingDecisionEngine;
 
-public class BubbleRap implements RoutingDecisionEngine, CommunityDetectionEngine {
+public class BubbleRap implements RoutingDecisionEngine, CommunityDetectionEngine, CentralityDetectionEngine {
 
     // Start-initialisation
     public static final String COMMUNITY_ALG_SETTING = "communityDetectAlg"; // added
@@ -179,6 +179,11 @@ public class BubbleRap implements RoutingDecisionEngine, CommunityDetectionEngin
         return this.centrality.getGlobalCentrality(connHistory);
     }
 
+    // jawabannya
+    public int[] getArrayCentrality() {
+        return this.centrality.getGlobalArrayCentrality(connHistory);
+    }
+
     private BubbleRap getOtherDecisionEngine(DTNHost h) {
         MessageRouter otherRouter = h.getRouter();
         assert otherRouter instanceof DecisionEngineRouter : "This router only works "
@@ -195,6 +200,16 @@ public class BubbleRap implements RoutingDecisionEngine, CommunityDetectionEngin
 
     @Override
     public void update(DTNHost thisHost) {
+    }
+
+    @Override
+    public double getGlobalDegreeCentrality() {
+        return 0;
+    }
+
+    @Override
+    public double getLocalDegreeCentrality() {
+        return 0;
     }
 
 }

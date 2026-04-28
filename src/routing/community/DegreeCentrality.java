@@ -12,16 +12,17 @@ import java.util.Map;
 import core.*;
 
 /**
- * <p>Computes the global and local centrality of a node using a version of the 
- * DEGREE centrality computation algorithm described in <em>BUBBLE Rap: 
- * Social-based Forwarding in Delay Tolerant Networks</em> by Pan Hui et al. 
+ * <p>
+ * Computes the global and local centrality of a node using a version of the
+ * DEGREE centrality computation algorithm described in <em>BUBBLE Rap:
+ * Social-based Forwarding in Delay Tolerant Networks</em> by Pan Hui et al.
  * (2008) (the bibtex record is included below for convenience). The discussion
  * around this algorithm was a bit vague. This class does not compute the node's
  * degree using any kind of averaging over a set of past time windows as is done
- * in {@link CWindowCentrality}, {@link SWindowCentrality}, or 
+ * in {@link CWindowCentrality}, {@link SWindowCentrality}, or
  * {@link AvgDegreeCentrality}. Instead, the node's centrality is defined here
- * as the total number of unique contacts (degree) the node has had over the 
- * entire simulation. 
+ * as the total number of unique contacts (degree) the node has had over the
+ * entire simulation.
  * </p>
  * 
  * <pre>
@@ -45,31 +46,35 @@ import core.*;
  * @see AvgDegreeCentrality
  * @see Centrality
  */
-public class DegreeCentrality implements Centrality
-{
-	public DegreeCentrality(Settings s){}
-	public DegreeCentrality(DegreeCentrality proto){}
-	
-	public double getGlobalCentrality(Map<DTNHost, List<Duration>> connHistory)
-	{
+public class DegreeCentrality implements Centrality {
+	public DegreeCentrality(Settings s) {
+	}
+
+	public DegreeCentrality(DegreeCentrality proto) {
+	}
+
+	public double getGlobalCentrality(Map<DTNHost, List<Duration>> connHistory) {
 		return connHistory.size();
 	}
 
 	public double getLocalCentrality(Map<DTNHost, List<Duration>> connHistory,
-			CommunityDetection cd)
-	{
+			CommunityDetection cd) {
 		int centrality = 0;
-		for(DTNHost h : connHistory.keySet())
-		{
-			if(cd.isHostInCommunity(h))
+		for (DTNHost h : connHistory.keySet()) {
+			if (cd.isHostInCommunity(h))
 				centrality++;
 		}
 		return centrality;
 	}
 
-	public Centrality replicate()
-	{
+	public Centrality replicate() {
 		return new DegreeCentrality(this);
+	}
+
+	@Override
+	public int[] getGlobalArrayCentrality(Map<DTNHost, List<Duration>> connHistory) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getGlobalArrayCentrality'");
 	}
 
 }

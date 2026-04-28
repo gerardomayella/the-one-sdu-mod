@@ -16,7 +16,8 @@ import core.*;
  * Computes the centrality of a node using the SWindow centrality algorithm
  * described in <em>BUBBLE Rap: Social-based Forwarding in Delay Tolerant
  * Networks</em> by Pan Hui et al. (2008) (the bibtex record is included below
- * for convenience).</p>
+ * for convenience).
+ * </p>
  *
  * <p>
  * SWindow estimates the node's centrality using the node's degree over the most
@@ -102,10 +103,9 @@ public class SWindowCentrality implements Centrality {
     }
 
     public SWindowCentrality(SWindowCentrality proto) {
-        // set these back in time (negative values) to do one computation at the 
+        // set these back in time (negative values) to do one computation at the
         // start of the sim
-        this.lastGlobalComputationTime = this.lastLocalComputationTime
-                = -COMPUTE_INTERVAL;
+        this.lastGlobalComputationTime = this.lastLocalComputationTime = -COMPUTE_INTERVAL;
     }
 
     public double getGlobalCentrality(Map<DTNHost, List<Duration>> connHistory) {
@@ -156,5 +156,11 @@ public class SWindowCentrality implements Centrality {
 
     public Centrality replicate() {
         return new SWindowCentrality(this);
+    }
+
+    @Override
+    public int[] getGlobalArrayCentrality(Map<DTNHost, List<Duration>> connHistory) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getGlobalArrayCentrality'");
     }
 }

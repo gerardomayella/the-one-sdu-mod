@@ -6,24 +6,18 @@
  * 
  */
 
-
-
 package routing.community;
-
-
-
-
 
 public interface CentralityDetectionEngine {
 
-	//returns the global centrality of a node
+	// returns the global centrality of a node
 	public double getGlobalDegreeCentrality();
-	
-	//returns the local centrality of a node
-	public double getLocalDegreeCentrality ();	
-	
-	//temporary inserted
-	//return the array of the global centrality of a node
-	//public int [] getArrayCentrality ();
-	
+
+	// returns the local centrality of a node
+	public double getLocalDegreeCentrality();
+
+	// temporary inserted
+	// return the array of the global centrality of a node
+	public int[] getArrayCentrality();
+
 }
