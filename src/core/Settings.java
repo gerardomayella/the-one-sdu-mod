@@ -93,7 +93,8 @@ public class Settings {
 	 * Sets the run index for the settings (only has effect on settings with run
 	 * array). A run array can be defined with syntax<BR>
 	 * <CODE>[settingFor1stRun ; settingFor2ndRun ; SettingFor3rdRun]</CODE>
-	 * <BR>I.e. settings are put in brackets and delimited with comma. First
+	 * <BR>
+	 * I.e. settings are put in brackets and delimited with comma. First
 	 * run's setting is returned when index is 0, second when index is 1 etc. If
 	 * run index is bigger than run array's length, indexing wraps around in run
 	 * array (i.e. return value is the value at index
@@ -120,16 +121,16 @@ public class Settings {
 	 * @throws SettingsError If the given array didn't qualify as a range
 	 */
 	public void assertValidRange(int range[], String sname)
-		throws SettingsError {
+			throws SettingsError {
 		if (range.length != 2) {
 			throw new SettingsError("Range setting "
-				+ getFullPropertyName(sname)
-				+ " should contain only two comma separated integer values");
+					+ getFullPropertyName(sname)
+					+ " should contain only two comma separated integer values");
 		}
 		if (range[0] > range[1]) {
 			throw new SettingsError("Range setting's "
-				+ getFullPropertyName(sname)
-				+ " first value should be smaller or equal to second value");
+					+ getFullPropertyName(sname)
+					+ " first value should be smaller or equal to second value");
 		}
 	}
 
@@ -149,8 +150,9 @@ public class Settings {
 	 *
 	 * @param setting The name of the setting
 	 * @return The setting name prefixed with fully qualified name of the
-	 * namespace where the requested setting would be retrieved from or null if
-	 * that setting is not found from any of the current namespace(s)
+	 *         namespace where the requested setting would be retrieved from or null
+	 *         if
+	 *         that setting is not found from any of the current namespace(s)
 	 */
 	public String getFullPropertyName(String setting) {
 		if (!contains(setting)) {
@@ -244,7 +246,7 @@ public class Settings {
 					out = new PrintStream(new File(outFile));
 				} catch (FileNotFoundException e) {
 					throw new SettingsError("Can't open Settings output file:"
-						+ e);
+							+ e);
 				}
 			}
 		}
@@ -353,7 +355,7 @@ public class Settings {
 		}
 
 		if ((value == null || value.length() == 0)
-			&& this.secondaryNamespace != null) {
+				&& this.secondaryNamespace != null) {
 			// try secondary namespace if the value wasn't found from primary
 			fullPropName = getFullPropertyName(name, true);
 			value = props.getProperty(fullPropName);
@@ -365,7 +367,7 @@ public class Settings {
 
 		if (value == null || value.length() == 0) {
 			throw new SettingsError("Can't find setting "
-				+ getPropertyNamesString(name));
+					+ getPropertyNamesString(name));
 		}
 
 		outputSetting(fullPropName + " = " + value);
@@ -394,9 +396,9 @@ public class Settings {
 		final int MIN_LENGTH = 3; // minimum run is one value. e.g. "[v]"
 
 		if (!value.startsWith(RUN_ARRAY_START)
-			|| !value.endsWith(RUN_ARRAY_END)
-			|| runIndex < 0
-			|| value.length() < MIN_LENGTH) {
+				|| !value.endsWith(RUN_ARRAY_END)
+				|| runIndex < 0
+				|| value.length() < MIN_LENGTH) {
 			if (!(value.startsWith(RUN_ARRAY_START) && value.contains(COMMENT_PREFIX))) {
 				return value.split(COMMENT_PREFIX)[0].trim();
 			}
@@ -424,7 +426,7 @@ public class Settings {
 	private String getPropertyNamesString(String name) {
 		if (this.secondaryNamespace != null) {
 			return "'" + this.secondaryNamespace + "." + name + "' nor '"
-				+ this.namespace + "." + name + "'";
+					+ this.namespace + "." + name + "'";
 		} else if (this.namespace != null) {
 			return "'" + this.namespace + "." + name + "'";
 		} else {
@@ -480,7 +482,7 @@ public class Settings {
 			number = Double.parseDouble(value) * multiplier;
 		} catch (NumberFormatException e) {
 			throw new SettingsError("Invalid numeric setting '" + value
-				+ "' for '" + setting + "'\n" + e.getMessage());
+					+ "' for '" + setting + "'\n" + e.getMessage());
 		}
 		return number;
 	}
@@ -522,8 +524,8 @@ public class Settings {
 
 		if (values.length != expectedCount) {
 			throw new SettingsError("Read unexpected amount (" + values.length
-				+ ") of comma separated values for setting '"
-				+ name + "' (expected " + expectedCount + ")");
+					+ ") of comma separated values for setting '"
+					+ name + "' (expected " + expectedCount + ")");
 		}
 
 		return values;
@@ -643,7 +645,7 @@ public class Settings {
 
 		if (number != doubleValue) {
 			throw new SettingsError("Expected integer value for setting '"
-				+ name + "' " + " got '" + doubleValue + "'");
+					+ name + "' " + " got '" + doubleValue + "'");
 		}
 		return number;
 	}
@@ -653,8 +655,8 @@ public class Settings {
 	 *
 	 * @param name Name of the setting to get
 	 * @return True if the settings value was either "true" (case ignored) or
-	 * "1", false is the settings value was either "false" (case ignored) or
-	 * "0".
+	 *         "1", false is the settings value was either "false" (case ignored) or
+	 *         "0".
 	 * @throws SettingsError if the value wasn't any recognized value
 	 * @see #getSetting(String)
 	 */
@@ -663,14 +665,14 @@ public class Settings {
 		boolean value;
 
 		if (stringValue.equalsIgnoreCase("true")
-			|| stringValue.equals("1")) {
+				|| stringValue.equals("1")) {
 			value = true;
 		} else if (stringValue.equalsIgnoreCase("false")
-			|| stringValue.equals("0")) {
+				|| stringValue.equals("0")) {
 			value = false;
 		} else {
 			throw new SettingsError("Not a boolean value: '" + stringValue
-				+ "' for setting " + name);
+					+ "' for setting " + name);
 		}
 
 		return value;
@@ -694,8 +696,8 @@ public class Settings {
 	 * @throws SettingsError if object couldn't be created
 	 */
 	public Object createIntializedObject(String className) {
-		Class<?>[] argsClass = {Settings.class};
-		Object[] args = {this};
+		Class<?>[] argsClass = { Settings.class };
+		Object[] args = { this };
 
 		return loadObject(className, argsClass, args);
 	}
@@ -723,7 +725,7 @@ public class Settings {
 	 * @throws SettingsError if object couldn't be created
 	 */
 	private Object loadObject(String className, Class<?>[] argsClass,
-							  Object[] args) {
+			Object[] args) {
 		Object o = null;
 		Class<?> objClass = getClass(className);
 		Constructor<?> constructor;
@@ -743,10 +745,10 @@ public class Settings {
 			throw new SettingsError("Fatal exception " + e, e);
 		} catch (NoSuchMethodException e) {
 			throw new SettingsError("Class '" + className
-				+ "' doesn't have a suitable constructor", e);
+					+ "' doesn't have a suitable constructor", e);
 		} catch (InstantiationException e) {
 			throw new SettingsError("Can't create an instance of '"
-				+ className + "'", e);
+					+ className + "'", e);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			throw new SettingsError("Fatal exception " + e, e);
@@ -757,7 +759,7 @@ public class Settings {
 			} else {
 				e.printStackTrace();
 				throw new SimError("Couldn't create settings-accepting object"
-					+ " for '" + className + "'\n" + "cause: " + e.getCause(), e);
+						+ " for '" + className + "'\n" + "cause: " + e.getCause(), e);
 			}
 		}
 
@@ -780,7 +782,7 @@ public class Settings {
 			c = Class.forName(className);
 		} catch (ClassNotFoundException e) {
 			throw new SettingsError("Couldn't find class '" + className + "'"
-				+ "\n" + e.getMessage(), e);
+					+ "\n" + e.getMessage(), e);
 		}
 
 		return c;
@@ -794,12 +796,12 @@ public class Settings {
 	 *
 	 * @param input The input string that may contain value requests
 	 * @return A string filled with requested values (or the original string if
-	 * no requests were found)
+	 *         no requests were found)
 	 * @throws SettingsError if such settings were not found
 	 */
 	public String valueFillString(String input) {
 		if (!input.contains(FILL_DELIMITER)) {
-			return input;    // nothing to fill
+			return input; // nothing to fill
 		}
 
 		Settings s = new Settings(); // don't use any namespace

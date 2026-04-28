@@ -10,6 +10,7 @@ import java.util.*;
 
 import core.*;
 import routing.*;
+//import routing.community.BubbleRap;
 import routing.community.CommunityDetectionEngine;
 
 /**
@@ -19,7 +20,8 @@ import routing.community.CommunityDetectionEngine;
  * RoutingDecisionEngine implements the
  * routing.community.CommunityDetectionEngine are reported. In this way, the
  * report is able to output the result of any of the community detection
- * algorithms.</p>
+ * algorithms.
+ * </p>
  *
  * @author PJ Dillon, University of Pittsburgh
  */
@@ -33,7 +35,7 @@ public class CommunityDetectionReport extends Report {
     public void done() {
         List<DTNHost> nodes = SimScenario.getInstance().getHosts();
         List<Set<DTNHost>> communities = new LinkedList<Set<DTNHost>>();
-        Map<Integer, List<Set<DTNHost>>> nodeCommunities = new HashMap<>(); //added
+        // Map<Integer, List<Set<DTNHost>>> nodeCommunities = new HashMap<>(); // added
 
         for (DTNHost h : nodes) {
             MessageRouter r = h.getRouter();
@@ -44,6 +46,7 @@ public class CommunityDetectionReport extends Report {
             if (!(de instanceof CommunityDetectionEngine)) {
                 continue;
             }
+
             CommunityDetectionEngine cd = (CommunityDetectionEngine) de;
 
             boolean alreadyHaveCommunity = false;
@@ -62,7 +65,7 @@ public class CommunityDetectionReport extends Report {
 
         }
 
-//         print each community and its size out to the file
+        // print each community and its size out to the file
         for (Set<DTNHost> c : communities) {
             String print = "";
             for (DTNHost dTNHost : c) {
@@ -71,14 +74,15 @@ public class CommunityDetectionReport extends Report {
             write(print);
         }
 
-//        for (Map.Entry<Integer, List<Set<DTNHost>>> entry : nodeCommunities.entrySet()) {
-//            Integer key = entry.getKey();
-//            String print = key + "";
-//            for (Set<DTNHost> community : communities) {
-//                print += "\t" + community;
-//            }
-//            write(print);
-//        }
+        // for (Map.Entry<Integer, List<Set<DTNHost>>> entry :
+        // nodeCommunities.entrySet()) {
+        // Integer key = entry.getKey();
+        // String print = key + "";
+        // for (Set<DTNHost> community : communities) {
+        // print += "\t" + community;
+        // }
+        // write(print);
+        // }
         super.done();
     }
 

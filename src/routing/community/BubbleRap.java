@@ -21,7 +21,7 @@ public class BubbleRap implements RoutingDecisionEngine, CommunityDetectionEngin
     protected Map<DTNHost, List<Duration>> connHistory;
 
     protected CommunityDetection community; // added
-     protected Centrality centrality;
+    protected Centrality centrality;
 
     // End-initialisation
     // Constructor based on the settings

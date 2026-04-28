@@ -17,12 +17,11 @@ public class ProphetAdaptiveRouter extends ProphetRouter {
 
     protected ProphetAdaptiveRouter(ProphetRouter r) {
         super(r);
-        // TODO Auto-generated constructor stub
     }
 
     // enum
     private enum forwardingPolicy {
-        GRTR, GRTRMax, GRTRSort, COIN;
+        GRTR, GRTRMAX, GRTRSORT, COIN;
     }
 
     private forwardingPolicy forwardingPolicy;
@@ -35,17 +34,16 @@ public class ProphetAdaptiveRouter extends ProphetRouter {
             try {
                 this.forwardingPolicy = forwardingPolicy.valueOf(policyStr.toUpperCase());
             } catch (IllegalArgumentException e) {
-                this.forwardingPolicy = forwardingPolicy.GRTRMax; // Fallback jika string tidak valid
+                this.forwardingPolicy = forwardingPolicy.GRTRMAX; // Fallback jika string tidak valid
             }
         } else {
-            this.forwardingPolicy = forwardingPolicy.GRTRMax; // Default jika parameter tidak ditulis di .cfg
+            this.forwardingPolicy = forwardingPolicy.GRTRMAX; // Default jika parameter tidak ditulis di .cfg
         }
     }
 
     @Override
     protected Tuple<Message, Connection> tryOtherMessages() {
         List<Tuple<Message, Connection>> messages = new ArrayList<Tuple<Message, Connection>>();
-
         Collection<Message> msgCollection = getMessageCollection();
 
         /*
@@ -88,13 +86,13 @@ public class ProphetAdaptiveRouter extends ProphetRouter {
             case GRTR:
                 Collections.sort(messages, new TupleComparator3());
                 break;
-            case GRTRSort:
+            case GRTRSORT:
                 Collections.sort(messages, new TupleComparator2());
                 break;
             case COIN:
                 Collections.sort(messages, new TupleComparator3());
                 break;
-            case GRTRMax:
+            case GRTRMAX:
             default:
                 Collections.sort(messages, new TupleComparator());
                 break;

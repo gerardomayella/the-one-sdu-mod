@@ -102,13 +102,13 @@ public class SimpleCommunityDetection implements CommunityDetection {
         // Add peer to my local community if needed
         if (!this.localCommunity.contains(peer)) {
             /*
-			 * The algorithm calls for computing the size of  the intersection of 
-			 * peer's familiarSet and this host's localCommunity. We divide that by
-			 * the size of the peer's familiar set
+             * The algorithm calls for computing the size of the intersection of
+             * peer's familiarSet and this host's localCommunity. We divide that by
+             * the size of the peer's familiar set
              */
-            
-            System.out.println(peer +" has size com : " +localCommunity.size());
-            
+
+            System.out.println(peer + " has size com : " + localCommunity.size());
+
             // compute set intersection
             int count = 0, peerFsize = scd.familiarSet.size();
             for (DTNHost h : scd.familiarSet) {
@@ -124,7 +124,7 @@ public class SimpleCommunityDetection implements CommunityDetection {
         }
 
         /*
-		 * Repeat the computation for the other end of the connection
+         * Repeat the computation for the other end of the connection
          */
         if (!scd.localCommunity.contains(myHost)) {
             // compute set intersection
@@ -175,8 +175,8 @@ public class SimpleCommunityDetection implements CommunityDetection {
         }
 
         /*
-		 * If the peer isn't part of the familiar set, add it when the total
-		 * contact duration exceeds the familiarThreshold
+         * If the peer isn't part of the familiar set, add it when the total
+         * contact duration exceeds the familiarThreshold
          */
         // Compute total contact duration
         Iterator<Duration> i = history.iterator();
