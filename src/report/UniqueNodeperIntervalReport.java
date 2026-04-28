@@ -32,7 +32,7 @@ public class UniqueNodeperIntervalReport extends Report {
             // mengambil tiap tiap getArrayCentrality dari tiap node
             String printText = h.toString() + ":";
             for (int i = 0; i < nodeCentrality.length; i++) {
-                printText = printText + "\t" + nodeCentrality[i];
+                printText = printText + ";" + nodeCentrality[i];
 
             }
             write(printText);

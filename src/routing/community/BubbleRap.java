@@ -179,7 +179,6 @@ public class BubbleRap implements RoutingDecisionEngine, CommunityDetectionEngin
         return this.centrality.getGlobalCentrality(connHistory);
     }
 
-    // jawabannya
     public int[] getArrayCentrality() {
         return this.centrality.getGlobalArrayCentrality(connHistory);
     }
