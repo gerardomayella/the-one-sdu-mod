@@ -20,6 +20,8 @@ public class EpidemicRouter extends ActiveRouter {
 	 * 
 	 * @param s The settings object
 	 */
+
+	public static final int VACCINE_TTL = 3600;
 	public EpidemicRouter(Settings s) {
 		super(s);
 		// TODO: read&use epidemic router specific settings (if any)
@@ -106,8 +108,6 @@ public class EpidemicRouter extends ActiveRouter {
 		}
 		int recvCheck = checkReceiving(m);
 		if (recvCheck != RCV_OK) {
-			// Jika pesan ditolak (karena buffer penuh atau sudah pernah diterima), batalkan
-			// eksekusi
 			return recvCheck;
 		}
 

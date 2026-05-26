@@ -113,6 +113,7 @@ public class MessageStatsReport extends Report implements MessageListener {
 
 
 	public void newMessage(Message m) {
+		
 		if (isWarmup()) {
 			addWarmupID(m.getId());
 			return;
