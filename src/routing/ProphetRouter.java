@@ -190,7 +190,7 @@ public class ProphetRouter extends AdaptiveBufferRouter {
 	 * 
 	 * @return a map of this router's delivery predictions
 	 */
-	protected Map<DTNHost, Double> getDeliveryPreds() {
+	public Map<DTNHost, Double> getDeliveryPreds() {
 		ageDeliveryPreds(); // make sure the aging is done
 		return this.preds;
 	}
@@ -206,7 +206,6 @@ public class ProphetRouter extends AdaptiveBufferRouter {
 		if (exchangeDeliverableMessages() != null) {
 			return;
 		}
-		System.out.println(tryOtherMessages());
 		tryOtherMessages();
 	}
 
@@ -345,6 +344,50 @@ public class ProphetRouter extends AdaptiveBufferRouter {
 	public AdaptiveBufferRouter replicate() {
 		ProphetRouter r = new ProphetRouter(this);
 		return r;
+	}
+
+	public DTNHost getSelectedForwarder(Message m) {
+		// gunakan tryOtherMessages untuk mendapatkan list of messages yang bisa dikirim
+		// ke neighbour, lalu pilih neighbour dengan delivery predictability tertinggi
+		// untuk message tersebut, lalu return neighbour tersebut
+		// menggunakan Message m
+
+		List<Tuple<Message, Connection>> messages = new ArrayList<Tuple<Message, Connection>>();
+
+		Collection<Message> msgCollection = getMessageCollection();
+
+		/*
+		 * for all connected hosts collect all messages that have a higher
+		 * probability of delivery by the other host
+		 */
+		for (Connection con : getConnections()) {
+			DTNHost other = con.getOtherNode(getHost());
+			ProphetRouter othRouter = (ProphetRouter) other.getRouter();
+
+			if (othRouter.isTransferring()) {
+				continue; // skip hosts that are transferring
+			}
+
+			for (Message ms : msgCollection) {
+				if (othRouter.hasMessage(ms.getId())) {
+					continue; // skip messages that the other one has
+				}
+				tryAllMessagesToAllConnections();
+				if (othRouter.getPredFor(ms.getTo()) > getPredFor(ms.getTo())) {
+					// the other node has higher probability of delivery
+					messages.add(new Tuple<Message, Connection>(ms, con));
+				}
+			}
+		}
+		// System.out.println(messages);
+		// sort the message-connection tuples
+		Collections.sort(messages, new TupleComparator());
+		for (Tuple<Message, Connection> tuple : messages) {
+			if (tuple.getKey().getId() == m.getId()) {
+				return tuple.getValue().getOtherNode(getHost());
+			}
+		}
+		return null;
 	}
 
 }

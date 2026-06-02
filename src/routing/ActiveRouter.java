@@ -152,7 +152,7 @@ public abstract class ActiveRouter extends MessageRouter {
 	 * 
 	 * @return a list of connections this host currently has with other hosts
 	 */
-	protected List<Connection> getConnections() {
+	public List<Connection> getConnections() {
 		return getHost().getConnections();
 	}
 

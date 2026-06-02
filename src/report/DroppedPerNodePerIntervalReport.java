@@ -11,25 +11,25 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class DroppedPerNodePerIntervalReport extends Report implements MessageListener, UpdateListener {
-    
+
     // Perbaikan 1: Gunakan 0.0 alih-alih Double.MIN_VALUE yang secara teknis > 0
-    private double lastRecord = 0.0; 
+    private double lastRecord = 0.0;
     private int interval;
     public static final String DROPPED_REPORT_INTERVAL = "droppedReportInterval";
     public static final int DEFAULT_DROPPED_REPORT_INTERVAL = 5;
-    
-    private Map<DTNHost, Integer> droppedBuffer; 
-    
+
+    private Map<DTNHost, Integer> droppedBuffer;
+
     /**
      * Creates a new DroppedPerNodePerIntervalReport instance.
      */
     public DroppedPerNodePerIntervalReport() {
-        super();        
+        super();
         init();
         droppedBuffer = new HashMap<DTNHost, Integer>();
-        
+
         // Perbaikan 2: Penghapusan HashMap/ArrayList yang tidak perlu
-        
+
         Settings settings = getSettings();
         if (settings.contains(DROPPED_REPORT_INTERVAL)) {
             interval = settings.getInt(DROPPED_REPORT_INTERVAL);
@@ -46,17 +46,19 @@ public class DroppedPerNodePerIntervalReport extends Report implements MessageLi
     }
 
     @Override
-    public void newMessage(Message m) {}
+    public void newMessage(Message m) {
+    }
 
     @Override
-    public void messageTransferStarted(Message m, DTNHost from, DTNHost to) {}
+    public void messageTransferStarted(Message m, DTNHost from, DTNHost to) {
+    }
 
     @Override
     public void messageDeleted(Message m, DTNHost where, boolean dropped) {
         if (isWarmupID(m.getId())) {
             return;
-        }              
-        
+        }
+
         // Sedikit optimasi: Cek boolean dropped terlebih dahulu sebelum hitung count
         if (dropped) {
             int count = this.droppedBuffer.getOrDefault(where, 0);
@@ -65,30 +67,32 @@ public class DroppedPerNodePerIntervalReport extends Report implements MessageLi
     }
 
     @Override
-    public void messageTransferAborted(Message m, DTNHost from, DTNHost to) {}
+    public void messageTransferAborted(Message m, DTNHost from, DTNHost to) {
+    }
 
     @Override
-    public void messageTransferred(Message m, DTNHost from, DTNHost to, boolean firstDelivery) {}
+    public void messageTransferred(Message m, DTNHost from, DTNHost to, boolean firstDelivery) {
+    }
 
     @Override
     public void updated(List<DTNHost> hosts) {
         // Jika selisih waktu dari rekaman terakhir sudah melewati interval
         if (SimClock.getTime() - lastRecord >= interval) {
             int currentTime = (int) SimClock.getTime();
-            
+
             for (DTNHost host : hosts) {
                 int droppedCount = this.droppedBuffer.getOrDefault(host, 0);
-                
+
                 if (droppedCount > 0) {
                     write(currentTime + "\t" + host.getAddress() + "\t" + droppedCount);
 
                 }
                 // Perbaikan 4: Langsung Write ke text file agar memori RAM lega!
-                
+
                 // Reset nilai drop ke 0 untuk interval berikutnya
-                this.droppedBuffer.put(host, 0); 
+                this.droppedBuffer.put(host, 0);
             }
-            
+
             // Catat waktu perekaman terakhir
             lastRecord = SimClock.getTime();
         }
